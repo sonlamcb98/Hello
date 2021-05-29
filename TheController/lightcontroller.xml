@@ -1,0 +1,17 @@
+<node>
+  <interface name="local.LightController">
+    <property name="visibleApp" type="b" access="readwrite"/>
+    <signal name="visibleAppChanged">
+      <arg name="visibleApp" type="b" direction="out"/>
+    </signal>
+    <method name="turnOn">
+    </method>
+    <method name="turnOff">
+    </method>
+    <method name="back">
+    </method>
+    <method name="setVisibleApp">
+      <arg name="visibleApp" type="b" direction="in"/>
+    </method>
+  </interface>
+</node>
