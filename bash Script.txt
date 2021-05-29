@@ -1,0 +1,196 @@
+
+interpreted: thông dịch
+
+Đầu tiên các bạn mở terminal lên, ở đây mình dùng terminator , Trong thư mục hiện tại hoặc bất cứ đâu mà bạn muốn, tạo một file test.sh, mở file này ra và gõ vào như sau:
+
+#!/bin/bash
+
+echo “Hello World !”
+
+*Để thực thi file bash này chúng ta chạy lệnh:
+→ bash test.sh
+Các bạn sẽ thấy “Hello World” được in ra.
+
+*Cách thứ 2 để chạy file bash này là bạn cấp quyền execute cho nó bằng lệnh
+→ chmod +x  test.sh
+Sau đó chạy bằng lệnh
+→ ./test.sh 
+
+*Biến và tham số
+Tương tự như các ngôn ngữ lập trình khác, bash script cũng có các khái niệm biến và tham số.
+Tuy nhiên trong bash biến chỉ có 4 kiểu dữ liệu là:
+1.String
+2.integer
+3.constant
+4.Array
+*VD:
+name=”phuc”
+age=16
+echo $name //in ra
+echo $age  //in ra
+
+*Note: Các bạn lưu ý dấu = phải viết liền không được có dấu cách ví dụ age = 16, sẽ báo lỗi cú pháp.Biến phân biệt chữ hoa và chữ thường, ví dụ biến NAME sẽ khác biến name
+
+*Tiếp theo để truyền tham số vào file bash ta mở file test.sh và khai báo như sau:
+name=$1 //$1 là tham số thứ nhất
+age=$2  //$2 là tham số thứ 2
+echo “Name : ” $name
+echo “Age : ” $age
+Lưu file và chạy thử bằng lệnh → ./test.sh phuc 16
+
+
+*********
+TH1 : Weak quoting (nháy kép)
+Sử dụng nháy kép khi bạn muốn bash thực thi các biến String được truyền vào. Ví dụ, với script như sau :
+
+#!/usr/bin/env bash
+world="World"
+echo "Hello $world"
+Output hiện ra sẽ là : Hello World
+
+TH2 : Strong quoting (nháy đơn)
+Sử dụng nháy đơn khi bạn muốn giữ nguyên nội dung trong dấu nháy. Ví dụ :
+
+#!/usr/bin/env bash
+world="World"
+echo 'Hello $world'
+Output hiện ra sẽ là : Hello $world
+********
+
+
+*Để thực hiện phép toán trong bash script ta làm như sau, Ví dụ ta muốn tính bình phương của một số:
+→ ./test.sh 2
+Chúng ta muốn hiển thị ra màn hình kết quả là : “Bình phuong cua 2 là : 4” vậy trong file bash thì lại làm như sau
+
+number=$(($1 * $1))
+echo “Binh phuong cua $1 la : $number”
+
+*Lệnh điều kiện
+Trong bash script ta cũng có các lệnh điều kiện if, else như các ngôn ngữ khác, tuy nhiên cú pháp có phần phức tạp và khó nhớ hơn, các bạn cố gắng tiêu hóa 😛
+
+Trở lại với bài toán tính bình phương ở trên, nếu ta không nhập tham số vào thì thay vì bị báo lỗi, ta sẽ xử lý bằng lệnh điều kiện như sau:
+
+if [ -z $1 ]; then
+    echo "Chua nhap tham so"            
+else
+    number=$(($1 * $1))
+    echo "Binh phuong cua $1 la : $number"
+fi
+
+=>: -z là nếu không tồn tại tham số 1
+
+Các bạn lưu lại và chạy thử với hai trường hợp, 1 là không nhập tham số, 2 là nhập tham số là một số bất kỳ.
+
+*********
+Một số điều kiện cho if, else khác các bạn có thể tham khảo bảng sau đây:
+Lệnh so sánh với số
+Cú pháp	Ý nghĩa
+n1 -eq n2	Kiểm tra n1 = n2
+n1 -ne n2	Kiểm tra n1 khác n2
+n1 -lt n2	Kiểm tra n1 < n2
+n1 -le n2	Kiểm tra n1 <= n2
+n1 -gt n2	Kiểm tra n1 > n2
+n1 -ge n2	Kiểm tra n1 >= n2
+Lệnh so sánh với chuỗi
+Cú pháp	Ý nghĩa
+s1 = s2	Kiểm tra s1 = s2
+s1 != s2	Kiểm tra s1 khác s2
+-z s1	Kiểm tra s1 có kích thước bằng 0
+-n s1	Kiểm tra s1 có kích thước khác 0
+s1	Kiểm tra s1 khác rỗng
+Toán tử kết hợp
+Column 1	Column 2
+!	Phủ định (not)
+-a	Và (and)
+-o	Hoặc (or)
+Lệnh kiểm tra file (nói chung cho cả tệp và thư mục)
+Cú pháp	Ý nghĩa
+-f file	Kiểm tra xem file có phải là tệp hay không
+-d file	Kiểm tra xem file có phải là thư mục hay không
+-r file	Kiểm tra file có đọc (read) được hay không
+-w file	Kiểm tra file có ghi (write) được hay không
+-x file	Kiểm tra file có thực thi (execute) được hay không
+-s file	Kiểm tra file có kích thước lớn hơn 0 hay không
+-e file	Kiểm tra xem file có tồn tại hay không
+
+******
+
+while do trong bash script
+while command
+do
+   cac lenh de thuc thi neu command la true
+done
+
+#!/bin/sh
+a=0
+while [ $a -lt 10 ]
+do
+   echo $a
+   a=`expr $a + 1`
+done
+******
+
+******
+case Statement Syntax
+The Bash case statement takes the following form:
+
+case EXPRESSION in
+
+  PATTERN_1)
+    STATEMENTS
+    ;;
+
+  PATTERN_2)
+    STATEMENTS
+    ;;
+
+  PATTERN_N)
+    STATEMENTS
+    ;;
+
+  *)
+    STATEMENTS
+    ;;
+esac
+
+* Each case statement starts with the case keyword, followed by the case expression and the in keyword. The statement ends with the esac keyword.
+* You can use multiple patterns separated by the | operator. The ) operator terminates a pattern list.
+* A pattern can have special characters .
+* A pattern and its associated commands are known as a clause.
+* Each clause must be terminated with ;;.
+* The commands corresponding to the first pattern that matches the expression are executed.
+* It is a common practice to use the wildcard asterisk symbol (*) as a final pattern to define the default case. This pattern will always match.
+* If no pattern is matched, the return status is zero. Otherwise, the return status is the exit status of the executed commands
+
+Example:
+    case "$cmd" in
+	1) echo "-----AppHomeScreen-----"
+	   app_name="AppHomeScreen"
+           ;;
+	2) echo "-----AppSetup-----"
+	   app_name="AppSetup"
+           ;;
+	3) echo "-----AppOSDManager-----"
+	   app_name="AppOSDManager"
+           ;;
+	4) echo "-----NotificationManager-----"
+	   app_name="NotificationManager"
+           ;;
+	5) echo "-----AppStandbyClock-----"
+	   app_name="AppStandbyClock"
+           ;;
+	6) echo "-----AppMediaPlayer-----"
+	   app_name="AppMediaPlayer"
+           ;;
+
+    esac
+******
+
+******
+echo -n "=> please enter command: "; echo -n là không xuống dòng
+******
+******
+read variable   là đọc dữ liệu variable được nhập từ terminal
+******
+tìm hiểu lệnh mount, remount, ssh root, scp, tar, rm
+******
